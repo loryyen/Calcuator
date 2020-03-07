@@ -4,8 +4,11 @@ import "./style.sass";
 
 const Button = props => {
   return (
-    <div className="button" onClick={props.clickHander}>
-      {props.number}
+    <div
+      className={`button ${props.className}`}
+      onClick={() => props.clickHander(props.text)}
+    >
+      {props.text}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "components/button";
 import "./style.sass";
 import NP from "number-precision";
+import { number } from "prop-types";
 
 const Calcuator = () => {
   const numbers = ["7", "9", "8", "4", "5", "6", "1", "2", "3", "0", "."];
@@ -31,23 +32,18 @@ const Calcuator = () => {
     SetNumberDisplayArray(tmp);
   };
 
-  return (
-    <div className="calcuator">
-      <div className="display">{numberDisplayArray.join("")}</div>
-      <div className="top">
-        <div className="display-number">
-          <Button
-            key={clearMark}
-            text={clearMark}
-            clickHander={() => {
-              SetNumberDisplayArray([]);
-            }}
-          ></Button>
-        </div>
-      </div>
-      <div className="center">
-        <div className="left">
-          {numbers.map(x => {
+  const genNumbersButtons = () => {
+    let rows = [];
+    for (let i = 0; i < numbers.length; i++) {
+      if (i % 3 === 0) {
+        rows.push(numbers.slice(i, i + 3));
+      }
+    }
+
+    const result = rows.map((row, i) => {
+      return (
+        <div className="row" key={i}>
+          {row.map(x => {
             return (
               <Button
                 key={x}
@@ -60,6 +56,32 @@ const Calcuator = () => {
             );
           })}
         </div>
+      );
+    });
+
+    //console.log(result);
+    return result;
+  };
+
+  return (
+    <div className="calcuator">
+      <div className="display">{numberDisplayArray.join("")}</div>
+      <div className="top">
+        <div className="row">
+          <Button
+            key={clearMark}
+            text={clearMark}
+            clickHander={() => {
+              SetNumberDisplayArray([]);
+            }}
+          ></Button>
+          <Button text={"+/-"}></Button>
+          <Button text={"%"}></Button>
+          <Button text={"÷"} className="operator"></Button>
+        </div>
+      </div>
+      <div className="center">
+        <div className="left">{genNumbersButtons()}</div>
         <div className="right">
           {operators.map(x => {
             return (

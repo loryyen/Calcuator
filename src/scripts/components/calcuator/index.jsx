@@ -2,34 +2,23 @@ import React, { useState } from "react";
 import Button from "components/button";
 import "./style.sass";
 import NP from "number-precision";
-import { number } from "prop-types";
 
 const Calcuator = () => {
-  const numbers = ["7", "9", "8", "4", "5", "6", "1", "2", "3", "0", "."];
+  const numbers = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", "."];
   const operators = ["-", "+", "="];
-  const decimelMark = ".";
+  // const decimelMark = ".";
   const clearMark = "AC";
   const [numberArray, SetNumberArray] = useState([]);
   const [numberDisplayArray, SetNumberDisplayArray] = useState([]);
 
   const getShowNumber = text => {
-    let tmp = [...numberDisplayArray];
-
-    let operator = numberArray.filter(x => {
-      return operators.indexOf(x) > -1;
-    });
-    if (operator.length > 0 || numberArray.length > 0) {
-      //'='
-      if (text === decimelMark || tmp[tmp.length - 1] === decimelMark) {
-        tmp.push(text);
-      } else {
-        tmp = [text];
-      }
+    let displayNumber = [...numberDisplayArray];
+    if (displayNumber.length > 0) {
+      displayNumber.push(text);
     } else {
-      tmp.push(text);
+      displayNumber = [text];
     }
-    console.log(tmp);
-    SetNumberDisplayArray(tmp);
+    SetNumberDisplayArray(displayNumber);
   };
 
   const genNumbersButtons = () => {
@@ -58,7 +47,6 @@ const Calcuator = () => {
         </div>
       );
     });
-
     //console.log(result);
     return result;
   };
@@ -110,8 +98,26 @@ const Calcuator = () => {
                       result === "" ? [] : (result + "").split()
                     );
                   } else {
-                    let nosArry = [numberDisplayArray.join(""), op];
-                    SetNumberArray(nosArry);
+                    //check if re-click operator
+                    if (numberArray.indexOf(op) < 0) {
+                      //check if change operator
+                      let found = numberArray.find((x, index) => {
+                        let opt = operators.indexOf(x);
+                        if (opt > -1) {
+                          return index;
+                        }
+                      });
+
+                      if (found) {
+                        numberArray.splice(numberArray.indexOf(found), 1);
+                        let nosArry = [numberArray.join(""), op];
+                        SetNumberArray(nosArry);
+                      } else {
+                        let nosArry = [numberDisplayArray.join(""), op];
+                        SetNumberArray(nosArry);
+                      }
+                      SetNumberDisplayArray([]);
+                    }
                   }
                 }}
               ></Button>

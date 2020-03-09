@@ -13,10 +13,14 @@ const Calcuator = () => {
 
   const getShowNumber = text => {
     let displayNumber = [...numberDisplayArray];
-    if (displayNumber.length > 0) {
-      displayNumber.push(text);
-    } else {
+    if (numberArray.length > 0 && operators.indexOf(numberArray[numberArray.length - 1]) > -1) {
       displayNumber = [text];
+    } else {
+      if (displayNumber.length > 0) {
+        displayNumber.push(text);
+      } else {
+        displayNumber = [text];
+      }
     }
     SetNumberDisplayArray(displayNumber);
   };
@@ -51,6 +55,27 @@ const Calcuator = () => {
     return result;
   };
 
+  const calucate = (seqOperator) => {
+    let n1 = numberArray[0];
+    let operator = numberArray[1];
+    let n2 = numberDisplayArray.join("");
+    let result = 0;
+    switch (operator) {
+      case "-":
+        result = NP.minus(n1 * 1, n2 * 1);
+        break;
+      case "+":
+        result = NP.plus(n1 * 1, n2 * 1);
+        break;
+      default:
+        result = "";
+    }
+    SetNumberArray(result === "" ? [] : seqOperator ? [result, seqOperator] : [result]);
+    SetNumberDisplayArray(
+      result === "" ? [] : (result + "").split()
+    );
+  }
+
   return (
     <div className="calcuator">
       <div className="display">{numberDisplayArray.join("")}</div>
@@ -79,24 +104,7 @@ const Calcuator = () => {
                 className="operator"
                 clickHander={op => {
                   if (op === "=") {
-                    let n1 = numberArray[0];
-                    let operator = numberArray[1];
-                    let n2 = numberDisplayArray.join("");
-                    let result = 0;
-                    switch (operator) {
-                      case "-":
-                        result = NP.minus(n1 * 1, n2 * 1);
-                        break;
-                      case "+":
-                        result = NP.plus(n1 * 1, n2 * 1);
-                        break;
-                      default:
-                        result = "";
-                    }
-                    SetNumberArray(result === "" ? [] : [result]);
-                    SetNumberDisplayArray(
-                      result === "" ? [] : (result + "").split()
-                    );
+                    calucate();
                   } else {
                     //check if re-click operator
                     if (numberArray.indexOf(op) < 0) {
@@ -107,7 +115,6 @@ const Calcuator = () => {
                           return index;
                         }
                       });
-
                       if (found) {
                         numberArray.splice(numberArray.indexOf(found), 1);
                         let nosArry = [numberArray.join(""), op];
@@ -117,6 +124,8 @@ const Calcuator = () => {
                         SetNumberArray(nosArry);
                       }
                       SetNumberDisplayArray([]);
+                    } else {
+                      calucate(op);
                     }
                   }
                 }}

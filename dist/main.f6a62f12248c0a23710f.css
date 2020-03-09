@@ -1,0 +1,6 @@
+.button{display:inline-block;float:left;width:60px;height:60px;line-height:60px;margin:5px 5px;background-color:#333333;color:#fff;text-align:center;border-radius:50%;cursor:pointer;font-size:26px}.button.zero{border-radius:25px;width:126px}.button.operator{background-color:#3091fd}
+
+.calcuator{height:100vh;margin:0 auto;width:100%;background:linear-gradient(to top, #0e0b1c 0%, #84baff 100%)}.calcuator .display{width:100%;height:40vh;color:#ffffff;display:flex;flex-direction:row-reverse;align-items:flex-end;font-size:36px}.calcuator .top{width:100%;display:flex;flex-direction:row;justify-content:center}@media screen and (min-device-width: 1024px){.calcuator .top{width:38%;margin:0 auto}}.calcuator .top .row{padding-right:15px}.calcuator .top .display-number{flex:1;margin:0 12%}.calcuator .center{width:100%;display:flex;flex-direction:row;justify-content:center}@media screen and (min-device-width: 1024px){.calcuator .center{width:38%;margin:0 auto}}.calcuator .row{display:flex;flex-direction:row;align-items:center;justify-content:flex-end}.calcuator .left{flex:2}.calcuator .right{flex:1}
+
+.calacator-wrapper{margin:0 auto}@media screen and (max-device-width: 320px){.calacator-wrapper{width:360px}}@media screen and (min-device-width: 1024px){.calacator-wrapper{width:1024px}}
+
